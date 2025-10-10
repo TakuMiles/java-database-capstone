@@ -1,0 +1,16 @@
+Title: Doctor
+As a doctor, I want to update my profile with my specialization and contact details so that patients have accurate and up-to-date information.
+
+Acceptance Criteria:
+
+The doctor can edit fields such as specialization, contact number, and bio.
+
+Changes are validated and saved to the database.
+
+Updated information is visible to patients in the doctor list.
+
+Priority: Medium
+Story Points: 3
+Notes:
+
+Consider adding profile picture upload functionality in later versions.
