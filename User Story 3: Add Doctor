@@ -1,0 +1,18 @@
+**Title: Admin**
+As an admin, I want to add new doctors to the portal so that they can access their dashboard and manage appointments.
+
+Acceptance Criteria:
+
+The admin can open the “Add Doctor” form and fill in required details.
+
+The system validates mandatory fields (name, email, specialization, etc.).
+
+A new doctor record is stored in the MySQL database.
+
+The new doctor can log in using the provided credentials.
+
+Priority: High
+Story Points: 4
+Notes:
+
+Duplicate emails or usernames should not be allowed.
