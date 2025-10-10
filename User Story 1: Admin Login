@@ -1,0 +1,19 @@
+
+**Title: Admin**
+As an admin, I want to log into the portal using my username and password so that I can securely access and manage the platform.
+
+**Acceptance Criteria:**
+
+The admin can enter a valid username and password to log in.
+
+The system validates credentials against the database.
+
+Successful login redirects the admin to the dashboard.
+
+Invalid credentials display an appropriate error message.
+
+Priority: High
+Story Points: 3
+Notes:
+
+Authentication must follow secure password encryption standards.
