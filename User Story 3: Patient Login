@@ -1,0 +1,16 @@
+**Title: Patient**
+As a patient, I want to log into the portal so that I can securely access and manage my bookings.
+
+Acceptance Criteria:
+
+The patient can log in using valid credentials.
+
+The system authenticates and redirects to the patient dashboard.
+
+Invalid credentials trigger a clear error message.
+
+Priority: High
+Story Points: 2
+Notes:
+
+Support “Remember Me” functionality and session timeout.
