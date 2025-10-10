@@ -1,0 +1,18 @@
+**Title: Admin**
+As an admin, I want to delete a doctor’s profile so that I can remove inactive or outdated records from the system.
+
+**Acceptance Criteria:**
+
+The admin can select a doctor from the list and confirm deletion.
+
+The system removes the doctor’s record from the database.
+
+A confirmation message appears after successful deletion.
+
+Deleted doctors lose access to the platform immediately.
+
+Priority: Medium
+Story Points: 3
+Notes:
+
+Consider adding soft delete functionality for audit purposes.
