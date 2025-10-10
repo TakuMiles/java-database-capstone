@@ -1,0 +1,16 @@
+Title: Doctor
+As a doctor, I want to log into the portal so that I can securely access and manage my appointments.
+
+Acceptance Criteria:
+
+The doctor can log in using valid credentials (email and password).
+
+The system authenticates and redirects to the doctor dashboard.
+
+Invalid credentials display a clear error message.
+
+Priority: High
+Story Points: 2
+Notes:
+
+Implement secure authentication with encrypted passwords and session management.
