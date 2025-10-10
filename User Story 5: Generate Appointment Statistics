@@ -1,0 +1,16 @@
+**Title: Admin**
+As an admin, I want to run a stored procedure in MySQL to get monthly appointment statistics so that I can track platform usage and doctor activity.
+
+Acceptance Criteria:
+
+The admin can execute a predefined stored procedure from the MySQL CLI or admin panel.
+
+The procedure returns the total number of appointments per month.
+
+Results are displayed or exported in a readable format (e.g., CSV or table).
+
+Priority: Medium
+Story Points: 5
+Notes:
+
+Consider automating this process for dashboard reporting in future iterations.
