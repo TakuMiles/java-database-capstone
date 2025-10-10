@@ -1,0 +1,16 @@
+**Title: Patient**
+As a patient, I want to sign up using my email and password so that I can create an account to book appointments.
+
+Acceptance Criteria:
+
+The system provides a registration form that requires valid email and password.
+
+Duplicate email registrations are not allowed.
+
+Successful registration redirects to the login page or dashboard.
+
+Priority: High
+Story Points: 3
+Notes:
+
+Passwords should be encrypted and meet security complexity standards.
