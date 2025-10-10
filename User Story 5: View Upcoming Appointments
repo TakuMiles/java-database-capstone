@@ -1,0 +1,16 @@
+Title: Patient
+As a patient, I want to view my upcoming appointments so that I can prepare for future consultations.
+
+Acceptance Criteria:
+
+The patient can view a list of all confirmed future appointments.
+
+Each entry displays doctor name, date, time, and appointment status.
+
+The list updates automatically if an appointment is canceled or rescheduled.
+
+Priority: Medium
+Story Points: 3
+Notes:
+
+Optionally include reminders or calendar integration for upcoming appointments.
