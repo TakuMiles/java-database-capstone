@@ -1,0 +1,16 @@
+Title: Doctor
+As a doctor, I want to mark my unavailable times so that patients can only book appointments during my available slots.
+
+Acceptance Criteria:
+
+The doctor can set unavailable dates and times through the dashboard.
+
+The system prevents patients from booking during marked unavailable slots.
+
+The availability changes reflect immediately in the booking system.
+
+Priority: Medium
+Story Points: 3
+Notes:
+
+Unavailability settings should allow both recurring and one-time blocks.
