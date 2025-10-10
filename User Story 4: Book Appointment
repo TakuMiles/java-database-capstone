@@ -1,0 +1,18 @@
+Title: Patient
+As a patient, I want to log in and book an hour-long appointment with a doctor so that I can schedule a consultation conveniently.
+
+Acceptance Criteria:
+
+The patient can select a doctor, choose a date and time, and confirm an hour-long slot.
+
+The system checks the doctor’s availability before confirming the booking.
+
+A confirmation message or email is sent after booking.
+
+Appointment details are stored in the database.
+
+Priority: High
+Story Points: 5
+Notes:
+
+Prevent double booking or overlapping time slots.
