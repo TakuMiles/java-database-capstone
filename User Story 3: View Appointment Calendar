@@ -1,0 +1,16 @@
+Title: Doctor
+As a doctor, I want to view my appointment calendar so that I can stay organized and manage my daily schedule effectively.
+
+Acceptance Criteria:
+
+The system displays all confirmed appointments in a calendar view.
+
+Each appointment shows patient name, date, and time.
+
+The calendar updates automatically when appointments are added, canceled, or rescheduled.
+
+Priority: High
+Story Points: 4
+Notes:
+
+Include both daily and monthly view options for better visibility.
