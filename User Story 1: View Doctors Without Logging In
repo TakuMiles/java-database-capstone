@@ -1,0 +1,16 @@
+**Title: Student**
+As a patient, I want to view a list of available doctors without logging in so that I can explore options before registering.
+
+**Acceptance Criteria:**
+
+The system displays a public list of doctors with names, specializations, and availability.
+
+Patients can search or filter doctors by specialization.
+
+No login or registration is required to access this information.
+
+Priority: Medium
+Story Points: 3
+Notes:
+
+The list should exclude sensitive contact details and personal data.
