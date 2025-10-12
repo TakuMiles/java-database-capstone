@@ -1,7 +1,18 @@
 package com.project.back_end.models;
 
-public class Admin {
+@Entity
+public class Admin{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @NotNull(message = "username cannot be null")
+    private String username;
+
+    @NotNull(message = "password cannot be null")
+    @JasonProperty(access = JasonProperty.Access.Write_Only)
+    private String password;
+}
 // @Entity annotation:
 //    - Marks the class as a JPA entity, which means it represents a table in the database.
 //    - It is required for persistence frameworks like Hibernate to map the class to a database table.
@@ -34,4 +45,4 @@ public class Admin {
 // 5. Getters and Setters:
 //    - Standard getter and setter methods are provided for accessing and modifying the fields.
 
-}
+
