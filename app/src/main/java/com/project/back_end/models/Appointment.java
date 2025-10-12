@@ -64,6 +64,21 @@ public class Appointment {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Transient
+    public LocalDateTime getEndTime() {
+        return appointmentTime.plusHours(1);
+    }
+
+    @Transient
+    public LocalDate getAppointmentDate() {
+        return appointmentTime.toLocalDate();
+    }
+
+    @Transient
+    public LocalTime getAppointmentTimeOnly() {
+        return appointmentTime.toLocalTime();
+    }
   
   // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
