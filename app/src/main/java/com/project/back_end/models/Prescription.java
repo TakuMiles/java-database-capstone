@@ -8,7 +8,7 @@ import jakarta.validation.constraints.*;
 public class Prescription {
 
     @Id
-    private String id; // MongoDB auto-generated ID
+    private String id;
 
     @NotNull(message = "Patient name cannot be null")
     @Size(min = 3, max = 100, message = "Patient name must be between 3 and 100 characters")
@@ -28,7 +28,19 @@ public class Prescription {
     @Size(max = 200, message = "Doctor notes cannot exceed 200 characters")
     private String doctorNotes;
 
-    
+
+    // Constructors
+    public Prescription() {
+    }
+
+    public Prescription(String patientName, Long appointmentId, String medication, String dosage) {
+        this.patientName = patientName;
+        this.appointmentId = appointmentId;
+        this.medication = medication;
+        this.dosage = dosage;
+    }
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -76,56 +88,47 @@ public class Prescription {
     public void setDoctorNotes(String doctorNotes) {
         this.doctorNotes = doctorNotes;
     }
-  
-  // @Document annotation:
-//    - Marks the class as a MongoDB document (a collection in MongoDB).
-//    - The collection name is specified as "prescriptions" to map this class to the "prescriptions" collection in MongoDB.
+
+
+// @Document annotation:
+//    - Marks this class as a MongoDB document managed by Spring Data.
+//    - The "collection" parameter specifies the MongoDB collection name ("prescriptions").
 
 // 1. 'id' field:
 //    - Type: private String
-//    - Description:
-//      - Represents the unique identifier for each prescription.
-//      - The @Id annotation marks it as the primary key in the MongoDB collection.
-//      - The id is of type String, which is commonly used for MongoDB's ObjectId as it stores IDs as strings in the database.
+//    - Represents the unique identifier for each prescription.
+//    - The @Id annotation marks it as the MongoDB _id field (auto-generated).
 
 // 2. 'patientName' field:
 //    - Type: private String
-//    - Description:
-//      - Represents the name of the patient receiving the prescription.
-//      - The @NotNull annotation ensures that the patient name is required.
-//      - The @Size(min = 3, max = 100) annotation ensures that the name length is between 3 and 100 characters, ensuring a reasonable name length.
+//    - Represents the patient's full name for whom the prescription is issued.
+//    - The @NotNull annotation ensures that the field cannot be null.
+//    - The @Size(min = 3, max = 100) annotation validates the name length.
 
 // 3. 'appointmentId' field:
 //    - Type: private Long
-//    - Description:
-//      - Represents the ID of the associated appointment where the prescription was given.
-//      - The @NotNull annotation ensures that the appointment ID is required for the prescription.
+//    - Represents a reference to the appointment entity (relational link).
+//    - The @NotNull annotation ensures this reference is required.
 
 // 4. 'medication' field:
 //    - Type: private String
-//    - Description:
-//      - Represents the medication prescribed to the patient.
-//      - The @NotNull annotation ensures that the medication name is required.
-//      - The @Size(min = 3, max = 100) annotation ensures that the medication name is between 3 and 100 characters, which ensures meaningful medication names.
+//    - Represents the prescribed medication's name.
+//    - The @NotNull annotation ensures a medication must be provided.
+//    - The @Size(min = 3, max = 100) annotation ensures valid name length.
 
 // 5. 'dosage' field:
 //    - Type: private String
-//    - Description:
-//      - Represents the dosage information for the prescribed medication.
-//      - The @NotNull annotation ensures that the dosage information is provided.
+//    - Represents dosage details of the medication.
+//    - The @NotNull annotation ensures a dosage must be specified.
+//    - The @Size(min = 3, max = 20) annotation limits its character length.
 
 // 6. 'doctorNotes' field:
 //    - Type: private String
-//    - Description:
-//      - Represents any additional notes or instructions from the doctor regarding the prescription.
-//      - The @Size(max = 200) annotation ensures that the doctor's notes do not exceed 200 characters, providing a reasonable limit for additional notes.
+//    - Represents optional notes written by the doctor.
+//    - The @Size(max = 200) annotation ensures it does not exceed 200 characters.
 
-// 7. Constructors:
-//    - The class includes a no-argument constructor (default constructor) and a parameterized constructor that initializes the fields: patientName, medication, dosage, doctorNotes, and appointmentId.
-
-// 8. Getters and Setters:
-//    - Standard getter and setter methods are provided for all fields: id, patientName, medication, dosage, doctorNotes, and appointmentId.
-//    - These methods allow access and modification of the fields of the Prescription class.
-
+// 7. Getters and Setters:
+//    - Standard methods to access and modify private fields.
+//    - Required by frameworks such as Spring for data binding and serialization.
 
 }
