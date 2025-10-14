@@ -1,6 +1,11 @@
 package com.project.back_end.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
+@Table(name = "admins")
 public class Admin{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -10,7 +15,7 @@ public class Admin{
     private String username;
 
     @NotNull(message = "password cannot be null")
-    @JasonProperty(access = JasonProperty.Access.Write_Only)
+    @JasonProperty(access = JasonProperty.Access.WRITE_ONLY)
     private String password;
 }
 // @Entity annotation:
