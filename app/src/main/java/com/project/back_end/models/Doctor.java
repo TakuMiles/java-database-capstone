@@ -1,5 +1,10 @@
 package com.project.back_end.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "doctors")
 public class Doctor {
