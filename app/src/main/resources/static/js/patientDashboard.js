@@ -1,136 +1,230 @@
 // patientDashboard.js
-import { getDoctors } from './services/doctorServices.js';
-import { openModal } from './components/modals.js';
+
+/*
+  ========================================
+  IMPORT REQUIRED MODULES
+  ========================================
+  - createDoctorCard: renders doctor information cards
+  - openModal: handles modal opening for login/signup
+  - getDoctors, filterDoctors: fetch and filter doctor data from backend
+  - patientLogin, patientSignup: manage patient authentication
+*/
+
 import { createDoctorCard } from './components/doctorCard.js';
-import { filterDoctors } from './services/doctorServices.js';//call the same function to avoid duplication coz the functionality was same
-import { patientSignup, patientLogin } from './services/patientServices.js';
+import { openModal } from './components/modals.js';
+import { getDoctors, filterDoctors } from './services/doctorServices.js';
+import { patientLogin, patientSignup } from './services/patientServices.js';
 
 
-
+/*
+  ========================================
+  LOAD DOCTOR CARDS ON PAGE LOAD
+  ========================================
+  When the page loads:
+    - Call loadDoctorCards() to fetch and render available doctors.
+    - This function:
+        → Calls getDoctors() to fetch all doctors.
+        → Clears previous content inside #content.
+        → Renders each doctor using createDoctorCard().
+*/
 document.addEventListener("DOMContentLoaded", () => {
   loadDoctorCards();
+  bindModalTriggers();
+  bindFilterEvents();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("patientSignup");
-  if (btn) {
-    btn.addEventListener("click", () => openModal("patientSignup"));
-  }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("patientLogin")
-  if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
-      openModal("patientLogin")
-    })
-  }
-})
+/*
+  ========================================
+  FUNCTION: loadDoctorCards
+  ========================================
+  Fetches all available doctors and renders them as cards.
+*/
+async function loadDoctorCards() {
+  try {
+    const doctors = await getDoctors();
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
 
-function loadDoctorCards() {
-  getDoctors()
-    .then(doctors => {
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = "";
-
+    if (doctors.length > 0) {
       doctors.forEach(doctor => {
         const card = createDoctorCard(doctor);
         contentDiv.appendChild(card);
       });
-    })
-    .catch(error => {
-      console.error("Failed to load doctors:", error);
-    });
-}
-// Filter Input
-document.getElementById("searchBar").addEventListener("input", filterDoctorsOnChange);
-document.getElementById("filterTime").addEventListener("change", filterDoctorsOnChange);
-document.getElementById("filterSpecialty").addEventListener("change", filterDoctorsOnChange);
-
-
-
-function filterDoctorsOnChange() {
-  const searchBar = document.getElementById("searchBar").value.trim();
-  const filterTime = document.getElementById("filterTime").value;
-  const filterSpecialty = document.getElementById("filterSpecialty").value;
-
-
-  const name = searchBar.length > 0 ? searchBar : null;
-  const time = filterTime.length > 0 ? filterTime : null;
-  const specialty = filterSpecialty.length > 0 ? filterSpecialty : null;
-
-  filterDoctors(name, time, specialty)
-    .then(response => {
-      const doctors = response.doctors;
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = "";
-
-      if (doctors.length > 0) {
-        console.log(doctors);
-        doctors.forEach(doctor => {
-          const card = createDoctorCard(doctor);
-          contentDiv.appendChild(card);
-        });
-      } else {
-        contentDiv.innerHTML = "<p>No doctors found with the given filters.</p>";
-        console.log("Nothing");
-      }
-    })
-    .catch(error => {
-      console.error("Failed to filter doctors:", error);
-      alert("❌ An error occurred while filtering doctors.");
-    });
+    } else {
+      contentDiv.innerHTML = "<p>No doctors found.</p>";
+    }
+  } catch (error) {
+    console.error("❌ Failed to load doctors:", error);
+    displayMessage("An error occurred while loading doctors. Please try again.");
+  }
 }
 
+
+/*
+  ========================================
+  BIND MODAL TRIGGERS FOR LOGIN AND SIGNUP
+  ========================================
+  - #patientSignup → opens signup modal
+  - #patientLogin  → opens login modal
+*/
+function bindModalTriggers() {
+  const signupBtn = document.getElementById("patientSignup");
+  const loginBtn = document.getElementById("patientLogin");
+
+  if (signupBtn) signupBtn.addEventListener("click", () => openModal("patientSignup"));
+  if (loginBtn) loginBtn.addEventListener("click", () => openModal("patientLogin"));
+}
+
+
+/*
+  ========================================
+  SEARCH AND FILTER LOGIC
+  ========================================
+  - Listens to changes in:
+      → Search bar (#searchBar)
+      → Availability time (#filterTime)
+      → Specialty filter (#filterSpecialty)
+  - Each change triggers filterDoctorsOnChange() to fetch filtered results.
+*/
+function bindFilterEvents() {
+  const searchBar = document.getElementById("searchBar");
+  const filterTime = document.getElementById("filterTime");
+  const filterSpecialty = document.getElementById("filterSpecialty");
+
+  if (searchBar) searchBar.addEventListener("input", filterDoctorsOnChange);
+  if (filterTime) filterTime.addEventListener("change", filterDoctorsOnChange);
+  if (filterSpecialty) filterSpecialty.addEventListener("change", filterDoctorsOnChange);
+}
+
+
+/*
+  ========================================
+  FUNCTION: filterDoctorsOnChange
+  ========================================
+  - Gathers values from filter inputs.
+  - Calls filterDoctors(name, time, specialty) to fetch filtered doctors.
+  - Clears existing content before rendering new results.
+  - If no matches, displays a fallback message.
+*/
+async function filterDoctorsOnChange() {
+  const name = document.getElementById("searchBar")?.value.trim() || null;
+  const time = document.getElementById("filterTime")?.value || null;
+  const specialty = document.getElementById("filterSpecialty")?.value || null;
+
+  try {
+    const response = await filterDoctors(name, time, specialty);
+    const doctors = response?.doctors || [];
+
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+
+    if (doctors.length > 0) {
+      doctors.forEach(doctor => {
+        const card = createDoctorCard(doctor);
+        contentDiv.appendChild(card);
+      });
+    } else {
+      displayMessage("No doctors found with the given filters.");
+    }
+  } catch (error) {
+    console.error("❌ Failed to filter doctors:", error);
+    displayMessage("An error occurred while filtering doctors.");
+  }
+}
+
+
+/*
+  ========================================
+  RENDER UTILITY FUNCTION
+  ========================================
+  Used to show fallback messages or generic information in the content area.
+*/
+function displayMessage(message) {
+  const contentDiv = document.getElementById("content");
+  contentDiv.innerHTML = `<p>${message}</p>`;
+}
+
+
+/*
+  ========================================
+  HANDLE PATIENT SIGNUP
+  ========================================
+  - Triggered when signup form is submitted.
+  - Collects name, email, password, phone, and address.
+  - Calls patientSignup() to send data to backend.
+  - On success: shows alert, closes modal, and reloads page.
+  - On failure: displays an error message.
+*/
 window.signupPatient = async function () {
   try {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const phone = document.getElementById("phone").value;
-    const address = document.getElementById("address").value;
+    const data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      phone: document.getElementById("phone").value,
+      address: document.getElementById("address").value
+    };
 
-    const data = { name, email, password, phone, address };
     const { success, message } = await patientSignup(data);
+
     if (success) {
       alert(message);
       document.getElementById("modal").style.display = "none";
       window.location.reload();
+    } else {
+      alert(message);
     }
-    else alert(message);
   } catch (error) {
-    console.error("Signup failed:", error);
-    alert("❌ An error occurred while signing up.");
+    console.error("❌ Signup failed:", error);
+    alert("An error occurred while signing up. Please try again.");
   }
 };
 
+
+/*
+  ========================================
+  HANDLE PATIENT LOGIN
+  ========================================
+  - Triggered when login form is submitted.
+  - Captures email and password.
+  - Calls patientLogin() to authenticate.
+  - On success:
+      → Stores token in localStorage.
+      → Calls selectRole('loggedPatient').
+      → Redirects to loggedPatientDashboard.html.
+  - On failure:
+      → Displays alert message.
+*/
 window.loginPatient = async function () {
   try {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
     const data = {
-      email,
-      password
-    }
-    console.log("loginPatient :: ", data)
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    };
+
     const response = await patientLogin(data);
-    console.log("Status Code:", response.status);
-    console.log("Response OK:", response.ok);
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
+      localStorage.setItem('token', result.token);
       selectRole('loggedPatient');
-      localStorage.setItem('token', result.token)
       window.location.href = '/pages/loggedPatientDashboard.html';
     } else {
       alert('❌ Invalid credentials!');
     }
+  } catch (error) {
+    console.error("❌ Login failed:", error);
+    alert("An error occurred while logging in. Please try again.");
   }
-  catch (error) {
-    alert("❌ Failed to Login : ", error);
-    console.log("Error :: loginPatient :: ", error)
-  }
+};
 
 
-}
+/*
+  ========================================
+  NOTES
+  ========================================
+  - Ensure modal IDs (patientSignup, patientLogin) exist in the HTML.
+  - getDoctors() and filterDoctors() use async/await for proper flow.
+  - createDoctorCard() ensures consistent UI for doctor cards.
+  - Always show fallback messages for empty or failed API results.
+*/
