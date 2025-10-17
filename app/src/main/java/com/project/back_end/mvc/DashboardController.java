@@ -1,42 +1,46 @@
 package com.project.back_end.mvc;
 
+import com.project.back_end.services.CommonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import java.util.Map;
 
 @Controller
 public class DashboardController {
+
+    @Autowired
+    private CommonService service;
 
     // ✅ 2. Handle Admin Dashboard Access
     @GetMapping("/adminDashboard/{token}")
     public String adminDashboard(@PathVariable("token") String token) {
         // Validate token for the "admin" role
-        // TODO: Implement validateToken method in Service class
-        // Map<String, Object> validationResult = service.validateToken(token, "admin");
+        Map<String, Object> validationResult = service.validateToken(token, "admin");
 
         // If the token is valid (empty map), return the admin view
-        // if (validationResult.isEmpty()) {
+        if (validationResult.isEmpty()) {
             return "admin/adminDashboard";  // Thymeleaf template under templates/admin/
-        // }
+        }
 
         // If invalid, redirect to login/home
-        // return "redirect:http://localhost:8080";
+        return "redirect:http://localhost:8080";
     }
 
     // ✅ 3. Handle Doctor Dashboard Access
     @GetMapping("/doctorDashboard/{token}")
     public String doctorDashboard(@PathVariable("token") String token) {
         // Validate token for the "doctor" role
-        // TODO: Implement validateToken method in Service class
-        // Map<String, Object> validationResult = service.validateToken(token, "doctor");
+        Map<String, Object> validationResult = service.validateToken(token, "doctor");
 
         // If the token is valid (empty map), return the doctor view
-        // if (validationResult.isEmpty()) {
+        if (validationResult.isEmpty()) {
             return "doctor/doctorDashboard";  // Thymeleaf template under templates/doctor/
-        // }
+        }
 
         // If invalid, redirect to login/home
-        // return "redirect:http://localhost:8080";
+        return "redirect:http://localhost:8080";
     }
 
     // 1. Set Up the MVC Controller Class:
