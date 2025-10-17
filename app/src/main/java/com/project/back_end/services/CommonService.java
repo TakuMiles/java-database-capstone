@@ -1,6 +1,11 @@
 package com.project.back_end.services;
 
-public class Service {
+import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class CommonService {
 // 1. **@Service Annotation**
 // The @Service annotation marks this class as a service component in Spring. This allows Spring to automatically detect it through component scanning
 // and manage its lifecycle, enabling it to be injected into controllers or other services using @Autowired or constructor injection.
@@ -13,6 +18,39 @@ public class Service {
 // This method checks if the provided JWT token is valid for a specific user. It uses the TokenService to perform the validation.
 // If the token is invalid or expired, it returns a 401 Unauthorized response with an appropriate error message. This ensures security by preventing
 // unauthorized access to protected resources.
+
+/**
+ * Validates JWT token for a specific user role.
+ * @param token JWT token to validate
+ * @param role User role (admin, doctor, patient)
+ * @return Empty map if valid, or error map if invalid
+ */
+public Map<String, Object> validateToken(String token, String role) {
+    // Basic token validation - check if token and role are provided
+    Map<String, Object> errorMap = new HashMap<>();
+    
+    if (token == null || token.trim().isEmpty()) {
+        errorMap.put("error", "Token is required");
+        errorMap.put("status", 401);
+        return errorMap;
+    }
+    
+    if (role == null || role.trim().isEmpty()) {
+        errorMap.put("error", "Role is required");
+        errorMap.put("status", 401);
+        return errorMap;
+    }
+    
+    // TODO: Implement proper JWT validation logic here
+    // For now, accept any non-empty token and role combination
+    // In a real implementation, this would:
+    // 1. Verify JWT signature and expiration
+    // 2. Extract user info from token
+    // 3. Validate user exists in the appropriate repository based on role
+    // 4. Return empty map if valid, error map if invalid
+    
+    return new HashMap<>(); // Return empty map to indicate successful validation
+}
 
 // 4. **validateAdmin Method**
 // This method validates the login credentials for an admin user.
