@@ -26,10 +26,30 @@ public class CommonService {
  * @return Empty map if valid, or error map if invalid
  */
 public Map<String, Object> validateToken(String token, String role) {
-    // TODO: Implement proper JWT validation logic
-    // For now, return empty map (valid) to maintain existing behavior
-    // In a real implementation, this would validate the JWT token and check the user role
-    return new HashMap<>();
+    // Basic token validation - check if token and role are provided
+    Map<String, Object> errorMap = new HashMap<>();
+    
+    if (token == null || token.trim().isEmpty()) {
+        errorMap.put("error", "Token is required");
+        errorMap.put("status", 401);
+        return errorMap;
+    }
+    
+    if (role == null || role.trim().isEmpty()) {
+        errorMap.put("error", "Role is required");
+        errorMap.put("status", 401);
+        return errorMap;
+    }
+    
+    // TODO: Implement proper JWT validation logic here
+    // For now, accept any non-empty token and role combination
+    // In a real implementation, this would:
+    // 1. Verify JWT signature and expiration
+    // 2. Extract user info from token
+    // 3. Validate user exists in the appropriate repository based on role
+    // 4. Return empty map if valid, error map if invalid
+    
+    return new HashMap<>(); // Return empty map to indicate successful validation
 }
 
 // 4. **validateAdmin Method**
