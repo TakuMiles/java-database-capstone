@@ -119,6 +119,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.project.back_end.BackEndApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
