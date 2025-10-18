@@ -97,11 +97,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ✅ H2 in-memory database for testing -->
+        <!-- ✅ H2 in-memory database for testing and development -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- ✅ Dev tools for hot reload -->

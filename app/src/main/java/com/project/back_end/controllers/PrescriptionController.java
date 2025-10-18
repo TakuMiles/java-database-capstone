@@ -47,14 +47,11 @@ public class PrescriptionController {
         if (validationResult.isEmpty()) {
             try {
                 // Update appointment status to indicate prescription has been added
-                // appointmentService.updateAppointmentStatus(prescription.getAppointmentId(), "prescription_added");
+                appointmentService.updateAppointmentStatus(prescription.getAppointmentId(), "prescription_added");
                 
                 // Save the prescription
-                // ResponseEntity<String> result = prescriptionService.savePrescription(prescription);
-                // return result;
-                
-                // TODO: Implement actual service methods
-                return ResponseEntity.ok("Prescription saved successfully");
+                ResponseEntity<String> result = prescriptionService.savePrescription(prescription);
+                return result;
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving prescription: " + e.getMessage());
@@ -77,11 +74,8 @@ public class PrescriptionController {
         if (validationResult.isEmpty()) {
             try {
                 // Fetch the prescription using the PrescriptionService
-                // ResponseEntity<String> result = prescriptionService.getPrescriptionByAppointmentId(appointmentId);
-                // return result;
-                
-                // TODO: Implement actual service method
-                return ResponseEntity.ok("Prescription retrieved for appointment ID: " + appointmentId);
+                ResponseEntity<String> result = prescriptionService.getPrescriptionByAppointmentId(appointmentId);
+                return result;
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error retrieving prescription: " + e.getMessage());
