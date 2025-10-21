@@ -14,3 +14,6 @@ https://github.com/TakuMiles/java-database-capstone/blob/main/app/src/main/resou
 
 https://github.com/TakuMiles/java-database-capstone/blob/main/app/src/main/java/com/project/back_end/mvc/DashboardController.java
 https://github.com/TakuMiles/java-database-capstone/blob/main/app/src/main/resources/application.properties
+
+
+http://localhost:8080/h2-console

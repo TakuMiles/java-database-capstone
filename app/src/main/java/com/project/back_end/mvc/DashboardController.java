@@ -1,19 +1,17 @@
 package com.project.back_end.mvc;
 
-import com.project.back_end.services.Service;  // adjust package if needed
+import com.project.back_end.services.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.Map;
 
 @Controller
 public class DashboardController {
 
-    // ✅ 1. Autowire the Shared Service (for token validation)
     @Autowired
-    private Service service;
+    private CommonService service;
 
     // ✅ 2. Handle Admin Dashboard Access
     @GetMapping("/adminDashboard/{token}")

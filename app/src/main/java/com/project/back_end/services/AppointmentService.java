@@ -1,5 +1,8 @@
 package com.project.back_end.services;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class AppointmentService {
 // 1. **Add @Service Annotation**:
 //    - To indicate that this class is a service layer class for handling business logic.
@@ -40,6 +43,12 @@ public class AppointmentService {
 //    - This method updates the status of an appointment by changing its value in the database.
 //    - It should be annotated with `@Transactional` to ensure the operation is executed in a single transaction.
 //    - Instruction: Add `@Transactional` before this method to ensure atomicity when updating appointment status.
+
+    public void updateAppointmentStatus(Long appointmentId, String status) {
+        // TODO: Implement database interaction
+        // For now, just log the operation
+        System.out.println("Updating appointment " + appointmentId + " status to: " + status);
+    }
 
 
 }
