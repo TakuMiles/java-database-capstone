@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Spring Boot Application
+  hospital-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: hospital-management-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/hospital_db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=hospital_user
+      - SPRING_DATASOURCE_PASSWORD=hospital_pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - hospital-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # MySQL Database
+  mysql-db:
+    image: mysql:8.0
+    container_name: hospital-mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=hospital_db
+      - MYSQL_USER=hospital_user
+      - MYSQL_PASSWORD=hospital_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - hospital-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "hospital_user", "-phospital_pass"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # phpMyAdmin for database management (optional)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: hospital-phpmyadmin
+    environment:
+      - PMA_HOST=mysql-db
+      - PMA_PORT=3306
+      - PMA_USER=hospital_user
+      - PMA_PASSWORD=hospital_pass
+    ports:
+      - "8081:80"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  hospital-network:
+    driver: bridge

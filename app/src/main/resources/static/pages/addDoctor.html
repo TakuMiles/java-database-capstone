@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor - Hospital Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/images/logo/Logo.png" type="image/png">
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 20px;
+        }
+        
+        .form-header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 5px;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .success-message {
+            color: #2e7d32;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .required {
+            color: #d32f2f;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Add New Doctor</h1>
+                <p>Enter the doctor's information to add them to the clinic</p>
+            </div>
+            
+            <form id="addDoctorForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required minlength="3" maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialty">Specialty <span class="required">*</span></label>
+                        <select id="specialty" name="specialty" required>
+                            <option value="">Select Specialty</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Dermatology">Dermatology</option>
+                            <option value="Emergency Medicine">Emergency Medicine</option>
+                            <option value="Family Medicine">Family Medicine</option>
+                            <option value="General Surgery">General Surgery</option>
+                            <option value="Internal Medicine">Internal Medicine</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Obstetrics and Gynecology">Obstetrics and Gynecology</option>
+                            <option value="Oncology">Oncology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Psychiatry">Psychiatry</option>
+                            <option value="Radiology">Radiology</option>
+                            <option value="Urology">Urology</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required pattern="\d{10}" maxlength="10" placeholder="1234567890">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Initial Password <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" required minlength="6" placeholder="Minimum 6 characters">
+                </div>
+                
+                <div class="form-group">
+                    <label for="availableTimes">Available Times</label>
+                    <textarea id="availableTimes" name="availableTimes" placeholder="Enter available times (e.g., Monday 9:00 AM - 5:00 PM, Tuesday 10:00 AM - 6:00 PM)"></textarea>
+                    <small style="color: #666; font-size: 12px;">Optional: Enter the doctor's available schedule</small>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Add Doctor</button>
+                    <a href="/adminDashboard/admin-token-123" class="btn btn-secondary">Cancel</a>
+                </div>
+                
+                <div id="errorMessage" class="error-message"></div>
+                <div id="successMessage" class="success-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addDoctorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Show loading state
+            form.classList.add('loading');
+            submitButton.textContent = 'Adding Doctor...';
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const doctorData = {
+                name: formData.get('name'),
+                specialty: formData.get('specialty'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                password: formData.get('password'),
+                availableTimes: formData.get('availableTimes') ? formData.get('availableTimes').split(',').map(time => time.trim()).filter(time => time.length > 0) : []
+            };
+            
+            try {
+                const response = await fetch('/api/admin/doctors', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer admin-token-123' // In real app, get this from storage
+                    },
+                    body: JSON.stringify(doctorData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    successMessage.textContent = 'Doctor added successfully!';
+                    successMessage.style.display = 'block';
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Optional: Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/adminDashboard/admin-token-123';
+                    }, 2000);
+                } else {
+                    errorMessage.textContent = result.message || 'Failed to add doctor. Please check the information and try again.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error adding doctor:', error);
+                errorMessage.textContent = 'Network error. Please check your connection and try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                // Remove loading state
+                form.classList.remove('loading');
+                submitButton.textContent = 'Add Doctor';
+            }
+        });
+        
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

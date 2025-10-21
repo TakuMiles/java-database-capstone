@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal - Hospital Management System</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #00d2d3;
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, #00d2d3, #54a0ff);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(84, 160, 255, 0.4);
+        }
+        
+        .section-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .doctor-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doctor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #00d2d3, #54a0ff);
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #00d2d3;
+        }
+        
+        .doctor-name {
+            color: #333;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-specialty {
+            color: #00d2d3;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+            background: rgba(0, 210, 211, 0.1);
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .doctor-details {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .book-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .logout-section {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .credentials-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #1565c0;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 Patient Portal</h1>
+        <p>Search and connect with healthcare providers</p>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="credentials-info">
+            <strong>👋 Welcome!</strong> You're logged in as a patient. Use the search below to find doctors by name or specialty.
+        </div>
+        
+        <div class="search-section">
+            <h3 class="section-title">🔍 Find Your Doctor</h3>
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by doctor name or specialty (e.g., 'cardiology', 'Dr. Wilson')">
+                <button onclick="searchDoctors()" class="search-btn">Search</button>
+            </div>
+        </div>
+
+        <div class="doctors-section">
+            <h3 class="section-title">👨‍⚕️ Available Doctors</h3>
+            <div id="doctorsList">
+                <div class="loading">Loading doctors...</div>
+            </div>
+        </div>
+        
+        <div class="logout-section">
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration
+        const mockDoctors = [
+            {
+                id: 1,
+                name: "Dr. Emily Wilson",
+                specialty: "Cardiology",
+                email: "emily.wilson@hospital.com",
+                phone: "1234567890",
+                availability: "Mon-Fri 9:00 AM - 5:00 PM"
+            },
+            {
+                id: 2,
+                name: "Dr. Robert Davis",
+                specialty: "Dermatology",
+                email: "robert.davis@hospital.com",
+                phone: "1234567891",
+                availability: "Mon-Wed 10:00 AM - 4:00 PM"
+            },
+            {
+                id: 3,
+                name: "Dr. Lisa Anderson",
+                specialty: "Pediatrics",
+                email: "lisa.anderson@hospital.com",
+                phone: "1234567892",
+                availability: "Tue-Thu 8:00 AM - 3:00 PM"
+            },
+            {
+                id: 4,
+                name: "Dr. Michael Chen",
+                specialty: "Orthopedics",
+                email: "michael.chen@hospital.com",
+                phone: "1234567893",
+                availability: "Mon-Fri 8:00 AM - 6:00 PM"
+            },
+            {
+                id: 5,
+                name: "Dr. Sarah Johnson",
+                specialty: "Neurology",
+                email: "sarah.johnson@hospital.com",
+                phone: "1234567894",
+                availability: "Tue-Sat 9:00 AM - 4:00 PM"
+            }
+        ];
+
+        // Load all doctors on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            displayDoctors(mockDoctors);
+            
+            // Add enter key support for search
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchDoctors();
+                }
+            });
+        });
+
+        function searchDoctors() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            document.getElementById('doctorsList').innerHTML = '<div class="loading">Searching...</div>';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                let filteredDoctors = mockDoctors;
+                
+                if (searchTerm) {
+                    filteredDoctors = mockDoctors.filter(doctor => 
+                        doctor.name.toLowerCase().includes(searchTerm) || 
+                        doctor.specialty.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                displayDoctors(filteredDoctors);
+            }, 500);
+        }
+
+        function displayDoctors(doctors) {
+            const container = document.getElementById('doctorsList');
+            
+            if (doctors.length === 0) {
+                container.innerHTML = '<p class="no-results">No doctors found matching your search</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="doctor-grid">
+                    ${doctors.map(doctor => `
+                        <div class="doctor-card">
+                            <h4 class="doctor-name">${doctor.name}</h4>
+                            <div class="doctor-specialty">${doctor.specialty}</div>
+                            <div class="doctor-details">📧 ${doctor.email}</div>
+                            <div class="doctor-details">📞 ${doctor.phone}</div>
+                            <div class="doctor-details">🕒 ${doctor.availability}</div>
+                            <button class="book-btn" onclick="bookAppointment(${doctor.id}, '${doctor.name}')">
+                                📅 Book Appointment
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function bookAppointment(doctorId, doctorName) {
+            alert(`🎉 Booking appointment with ${doctorName}!\n\n` +
+                  `Doctor ID: ${doctorId}\n` +
+                  `This would normally redirect to a booking form where you can:\n` +
+                  `• Select available time slots\n` +
+                  `• Choose appointment type\n` +
+                  `• Add notes for the doctor\n` +
+                  `• Confirm your booking`);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('👋 You have been logged out successfully!\n\nThis would normally redirect you back to the main login page.');
+                // In a real application: window.location.href = '/';
+            }
+        }
+    </script>
+</body>
+</html>

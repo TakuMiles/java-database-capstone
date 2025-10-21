@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Role Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+        
+        .role-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .role-buttons button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .role-buttons button:hover {
+            background-color: #1976D2;
+        }
+        
+        h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Your Role (Test Version)</h2>
+    <div class="role-buttons">
+        <button onclick="navigateToLogin('admin')">Admin</button>
+        <button onclick="navigateToLogin('doctor')">Doctor</button>
+        <button onclick="navigateToLogin('patient')">Patient</button>
+    </div>
+    
+    <div id="status" style="margin-top: 20px; color: #666;"></div>
+    
+    <script>
+        function navigateToLogin(role) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `Attempting to navigate to ${role} login...`;
+            
+            // Try the navigation
+            try {
+                const url = `/pages/${role}Login.html`;
+                statusDiv.innerHTML = `Navigating to: ${url}`;
+                window.location.href = url;
+            } catch (error) {
+                statusDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Test if buttons are clickable
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded, buttons should be clickable');
+            document.getElementById('status').innerHTML = 'Page loaded. Buttons should work.';
+        });
+    </script>
+</body>
+</html>
