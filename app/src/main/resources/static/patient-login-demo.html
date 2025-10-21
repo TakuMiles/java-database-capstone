@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Login Demo - Hospital Management System</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #00d2d3;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #00d2d3, #54a0ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(84, 160, 255, 0.4);
+        }
+        
+        .credentials-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #1565c0;
+            text-align: center;
+        }
+        
+        .credentials-box strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #00d2d3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message, .success-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #e57373;
+        }
+        
+        .success-message {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #81c784;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>👤 Patient Login</h2>
+            <p>Access your patient portal</p>
+        </div>
+        
+        <div class="credentials-box">
+            <strong>Demo Credentials:</strong>
+            Username: <code>patient</code><br>
+            Password: <code>patient123</code>
+        </div>
+        
+        <form id="patientLoginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="patient" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="patient123" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Login to Patient Portal</button>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+        </form>
+        
+        <div class="back-link">
+            <a href="#" onclick="showHomePage()">← Back to Role Selection</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('patientLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Simple validation for demo
+            if (username === 'patient' && password === 'patient123') {
+                successMessage.textContent = '✅ Login successful! Redirecting to patient portal...';
+                successMessage.style.display = 'block';
+                
+                // Simulate redirect after 2 seconds
+                setTimeout(() => {
+                    // In a real app, this would redirect to the actual portal
+                    window.location.href = 'patient-demo.html';
+                }, 2000);
+            } else {
+                errorMessage.textContent = '❌ Invalid credentials. Please use: patient / patient123';
+                errorMessage.style.display = 'block';
+            }
+        });
+        
+        function showHomePage() {
+            alert('This would normally take you back to the role selection page.\n\n' +
+                  'In the full application, you would see buttons for:\n' +
+                  '• Admin Login\n' +
+                  '• Doctor Login\n' +
+                  '• Patient Login');
+        }
+    </script>
+</body>
+</html>

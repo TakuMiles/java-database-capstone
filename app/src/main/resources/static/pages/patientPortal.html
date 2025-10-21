@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal - Hospital Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/images/logo/Logo.png" type="image/png">
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #FF9800;
+            padding-bottom: 20px;
+        }
+        
+        .dashboard-header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .dashboard-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .search-section {
+            margin-bottom: 30px;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #FF9800;
+        }
+        
+        .search-btn {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: #F57C00;
+        }
+        
+        .section-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .doctor-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .doctor-name {
+            color: #333;
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .doctor-specialty {
+            color: #FF9800;
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .doctor-details {
+            color: #666;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .book-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .book-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-style: italic;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card h4 {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+        
+        .stat-card p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .logout-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>Patient Portal</h1>
+                <p>Welcome, John! Find and book appointments with our doctors</p>
+            </div>
+            
+            <!-- Statistics Section -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h4>2</h4>
+                    <p>Upcoming Appointments</p>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #2196F3, #1976D2);">
+                    <h4>5</h4>
+                    <p>Past Appointments</p>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #4CAF50, #45a049);">
+                    <h4>3</h4>
+                    <p>Available Doctors</p>
+                </div>
+            </div>
+            
+            <!-- Doctor Search Section -->
+            <div class="search-section">
+                <h3 class="section-title">🔍 Find a Doctor</h3>
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search by doctor name or specialty (e.g., 'Dr. Wilson' or 'Cardiology')"
+                    >
+                    <button onclick="searchDoctors()" class="search-btn">Search</button>
+                </div>
+            </div>
+            
+            <!-- Doctors List Section -->
+            <div class="doctors-section">
+                <h3 class="section-title">👨‍⚕️ Available Doctors</h3>
+                <div id="doctorsList" class="loading">
+                    Loading doctors...
+                </div>
+            </div>
+            
+            <!-- Logout Section -->
+            <div class="logout-section">
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get token from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validate token on page load
+            if (!token || token !== 'patient-token-123') {
+                alert('Access denied. Please login first.');
+                window.location.href = '/pages/patientLogin.html';
+                return;
+            }
+            
+            // Store token for API calls
+            sessionStorage.setItem('patientToken', token);
+            loadAllDoctors();
+            
+            // Add enter key support for search
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchDoctors();
+                }
+            });
+        });
+
+        async function loadAllDoctors() {
+            try {
+                const response = await fetch('/api/patient/doctors/search', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayDoctors(data.doctors);
+                } else {
+                    document.getElementById('doctorsList').innerHTML = '<p class="no-results">Failed to load doctors</p>';
+                }
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+                document.getElementById('doctorsList').innerHTML = '<p class="no-results">Error loading doctors</p>';
+            }
+        }
+
+        async function searchDoctors() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            document.getElementById('doctorsList').innerHTML = '<div class="loading">Searching...</div>';
+            
+            try {
+                const url = searchTerm ? 
+                    `/api/patient/doctors/search?name=${encodeURIComponent(searchTerm)}` : 
+                    '/api/patient/doctors/search';
+                    
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayDoctors(data.doctors);
+                } else {
+                    document.getElementById('doctorsList').innerHTML = '<p class="no-results">Search failed</p>';
+                }
+            } catch (error) {
+                console.error('Error searching doctors:', error);
+                document.getElementById('doctorsList').innerHTML = '<p class="no-results">Error searching doctors</p>';
+            }
+        }
+
+        function displayDoctors(doctors) {
+            const container = document.getElementById('doctorsList');
+            
+            if (doctors.length === 0) {
+                container.innerHTML = '<p class="no-results">No doctors found matching your search</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="doctor-grid">
+                    ${doctors.map(doctor => `
+                        <div class="doctor-card">
+                            <h4 class="doctor-name">${doctor.name}</h4>
+                            <p class="doctor-specialty">🏥 ${doctor.specialty}</p>
+                            <p class="doctor-details">📧 ${doctor.email}</p>
+                            <p class="doctor-details">📞 ${doctor.phone}</p>
+                            <p class="doctor-details">🕒 ${doctor.availability}</p>
+                            <button class="book-btn" onclick="bookAppointment(${doctor.id})">
+                                Book Appointment
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function bookAppointment(doctorId) {
+            alert(`Booking appointment with doctor ID: ${doctorId}\n\nThis feature will redirect to the appointment booking page.`);
+            // In a real application, this would redirect to a booking page
+            // window.location.href = `/book-appointment?doctorId=${doctorId}`;
+        }
+
+        function logout() {
+            // Clear any stored tokens
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('patientToken');
+            
+            // Redirect to home page
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
