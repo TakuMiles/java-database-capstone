@@ -1,0 +1,76 @@
+name: Lint Frontend
+
+on: [push, pull_request]
+
+jobs:
+  lint-frontend:
+    runs-on: ubuntu-latest
+    name: Lint HTML, CSS, and JS
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install linters
+        run: |
+          npm install -g htmlhint stylelint eslint
+
+      - name: Create linter configs
+        run: |
+          # Create .htmlhintrc
+          echo '{
+            "tagname-lowercase": true,
+            "attr-lowercase": true,
+            "attr-value-double-quotes": true,
+            "doctype-first": true,
+            "tag-pair": true,
+            "spec-char-escape": true,
+            "id-unique": true,
+            "src-not-empty": true,
+            "attr-no-duplication": true,
+            "title-require": true
+          }' > .htmlhintrc
+          
+          # Create .stylelintrc.json
+          echo '{
+            "extends": ["stylelint-config-standard"],
+            "rules": {
+              "indentation": 2,
+              "string-quotes": "double"
+            }
+          }' > .stylelintrc.json
+          
+          # Create .eslintrc.json
+          echo '{
+            "env": {
+              "browser": true,
+              "es6": true
+            },
+            "extends": "eslint:recommended",
+            "parserOptions": {
+              "ecmaVersion": 2020,
+              "sourceType": "module"
+            },
+            "rules": {
+              "no-unused-vars": "warn",
+              "no-console": "off"
+            }
+          }' > .eslintrc.json
+
+      - name: Install additional stylelint config
+        run: npm install -g stylelint-config-standard
+
+      - name: Lint HTML files
+        run: |
+          find app/src/main/resources/static -name "*.html" -exec htmlhint {} \; || true
+
+      - name: Lint CSS files
+        run: |
+          find app/src/main/resources/static -name "*.css" -exec stylelint {} \; || true
+
+      - name: Lint JavaScript files
+        run: |
+          find app/src/main/resources/static -name "*.js" -exec eslint {} \; || true

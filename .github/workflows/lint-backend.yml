@@ -1,0 +1,38 @@
+name: Lint Java Backend
+
+on: [push, pull_request]
+
+jobs:
+  lint-java:
+    runs-on: ubuntu-latest
+    name: Checkstyle Java Linting
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run Maven Checkstyle
+        run: |
+          cd app
+          mvn checkstyle:check || true
+
+      - name: Run SpotBugs (Static Analysis)
+        run: |
+          cd app
+          mvn spotbugs:check || true
+
+      - name: Generate Code Coverage Report
+        run: |
+          cd app
+          mvn jacoco:report || true

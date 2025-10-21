@@ -1,0 +1,67 @@
+name: Build and Test Backend
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and Test Backend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Compile with Maven
+        run: |
+          cd app
+          mvn clean compile
+
+      - name: Run tests
+        run: |
+          cd app
+          mvn test
+
+      - name: Package application
+        run: |
+          cd app
+          mvn package -DskipTests
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jar-artifact
+          path: app/target/*.jar
+
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Build Docker Image
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t hospital-management-app:latest ./app
+
+      - name: Test Docker image
+        run: |
+          docker run --rm -d -p 8080:8080 --name test-container hospital-management-app:latest
+          sleep 30
+          curl -f http://localhost:8080/actuator/health || exit 1
+          docker stop test-container
+  
